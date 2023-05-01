@@ -5,17 +5,20 @@
 #
 Name     : lldpd
 Version  : 1.0.16
-Release  : 1
+Release  : 2
 URL      : https://github.com/lldpd/lldpd/releases/download/1.0.16/lldpd-1.0.16.tar.gz
 Source0  : https://github.com/lldpd/lldpd/releases/download/1.0.16/lldpd-1.0.16.tar.gz
 Summary  : libevent_pthreads adds pthreads-based threading support to libevent
 Group    : Development/Tools
 License  : BSD-3-Clause ISC MIT
+Requires: lldpd-autostart = %{version}-%{release}
 Requires: lldpd-bin = %{version}-%{release}
+Requires: lldpd-config = %{version}-%{release}
 Requires: lldpd-data = %{version}-%{release}
 Requires: lldpd-lib = %{version}-%{release}
 Requires: lldpd-license = %{version}-%{release}
 Requires: lldpd-man = %{version}-%{release}
+Requires: lldpd-services = %{version}-%{release}
 BuildRequires : buildreq-configure
 BuildRequires : doxygen
 BuildRequires : libcap-dev
@@ -34,14 +37,32 @@ BuildRequires : valgrind
 # lldpd: implementation of IEEE 802.1ab (LLDP)
 ![Build Status](https://github.com/lldpd/lldpd/workflows/CI/badge.svg)
 
+%package autostart
+Summary: autostart components for the lldpd package.
+Group: Default
+
+%description autostart
+autostart components for the lldpd package.
+
+
 %package bin
 Summary: bin components for the lldpd package.
 Group: Binaries
 Requires: lldpd-data = %{version}-%{release}
+Requires: lldpd-config = %{version}-%{release}
 Requires: lldpd-license = %{version}-%{release}
+Requires: lldpd-services = %{version}-%{release}
 
 %description bin
 bin components for the lldpd package.
+
+
+%package config
+Summary: config components for the lldpd package.
+Group: Default
+
+%description config
+config components for the lldpd package.
 
 
 %package data
@@ -100,6 +121,15 @@ Group: Default
 man components for the lldpd package.
 
 
+%package services
+Summary: services components for the lldpd package.
+Group: Systemd services
+Requires: systemd
+
+%description services
+services components for the lldpd package.
+
+
 %prep
 %setup -q -n lldpd-1.0.16
 cd %{_builddir}/lldpd-1.0.16
@@ -109,7 +139,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1682701885
+export SOURCE_DATE_EPOCH=1682967962
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -118,7 +148,8 @@ export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -f
 export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
 export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
 export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-%configure --disable-static
+%configure --disable-static --with-systemdsystemunitdir=/usr/lib/systemd/system \
+--with-sysusersdir=/usr/lib/sysusers.d
 make  %{?_smp_mflags}
 
 %check
@@ -129,7 +160,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1682701885
+export SOURCE_DATE_EPOCH=1682967962
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/lldpd
 cp %{_builddir}/lldpd-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/lldpd/a6a67dc7ee17afcdbf108fb5a0465a6244809d49 || :
@@ -138,15 +169,27 @@ cp %{_builddir}/lldpd-%{version}/libevent/cmake/COPYING-CMAKE-SCRIPTS %{buildroo
 cp %{_builddir}/lldpd-%{version}/libevent/cmake/Copyright.txt %{buildroot}/usr/share/package-licenses/lldpd/b7708e46727dc00ced77b6421d1f4b4e4045c12d || :
 cp %{_builddir}/lldpd-%{version}/osx/resources/license.html %{buildroot}/usr/share/package-licenses/lldpd/f35e6410a2fea0a868cb057d72d3c04fcc730ef1 || :
 %make_install
+## install_append content
+mkdir -p %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/
+ln -s ../lldpd.service %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/lldpd.service
+## install_append end
 
 %files
 %defattr(-,root,root,-)
+
+%files autostart
+%defattr(-,root,root,-)
+/usr/lib/systemd/system/multi-user.target.wants/lldpd.service
 
 %files bin
 %defattr(-,root,root,-)
 /usr/bin/lldpcli
 /usr/bin/lldpctl
 /usr/bin/lldpd
+
+%files config
+%defattr(-,root,root,-)
+/usr/lib/sysusers.d/lldpd.sysusers.conf
 
 %files data
 %defattr(-,root,root,-)
@@ -182,3 +225,8 @@ cp %{_builddir}/lldpd-%{version}/osx/resources/license.html %{buildroot}/usr/sha
 /usr/share/man/man8/lldpcli.8
 /usr/share/man/man8/lldpctl.8
 /usr/share/man/man8/lldpd.8
+
+%files services
+%defattr(-,root,root,-)
+%exclude /usr/lib/systemd/system/multi-user.target.wants/lldpd.service
+/usr/lib/systemd/system/lldpd.service
