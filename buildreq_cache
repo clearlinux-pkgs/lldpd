@@ -1,6 +1,5 @@
-1.0.16
+1.0.17
 doxygen
-libcap-dev
 libxml2-dev
 perl
 pkgconfig(zlib)

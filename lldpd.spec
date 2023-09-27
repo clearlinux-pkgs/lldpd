@@ -4,11 +4,11 @@
 # Using build pattern: configure
 #
 Name     : lldpd
-Version  : 1.0.16
-Release  : 2
-URL      : https://github.com/lldpd/lldpd/releases/download/1.0.16/lldpd-1.0.16.tar.gz
-Source0  : https://github.com/lldpd/lldpd/releases/download/1.0.16/lldpd-1.0.16.tar.gz
-Summary  : libevent_pthreads adds pthreads-based threading support to libevent
+Version  : 1.0.17
+Release  : 3
+URL      : https://github.com/lldpd/lldpd/releases/download/1.0.17/lldpd-1.0.17.tar.gz
+Source0  : https://github.com/lldpd/lldpd/releases/download/1.0.17/lldpd-1.0.17.tar.gz
+Summary  : libevent is an asynchronous notification event loop library
 Group    : Development/Tools
 License  : BSD-3-Clause ISC MIT
 Requires: lldpd-autostart = %{version}-%{release}
@@ -21,7 +21,6 @@ Requires: lldpd-man = %{version}-%{release}
 Requires: lldpd-services = %{version}-%{release}
 BuildRequires : buildreq-configure
 BuildRequires : doxygen
-BuildRequires : libcap-dev
 BuildRequires : libxml2-dev
 BuildRequires : perl
 BuildRequires : pkgconfig(check)
@@ -131,23 +130,23 @@ services components for the lldpd package.
 
 
 %prep
-%setup -q -n lldpd-1.0.16
-cd %{_builddir}/lldpd-1.0.16
+%setup -q -n lldpd-1.0.17
+cd %{_builddir}/lldpd-1.0.17
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1682967962
+export SOURCE_DATE_EPOCH=1695774099
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 %configure --disable-static --with-systemdsystemunitdir=/usr/lib/systemd/system \
 --with-sysusersdir=/usr/lib/sysusers.d
 make  %{?_smp_mflags}
@@ -160,7 +159,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1682967962
+export SOURCE_DATE_EPOCH=1695774099
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/lldpd
 cp %{_builddir}/lldpd-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/lldpd/a6a67dc7ee17afcdbf108fb5a0465a6244809d49 || :
