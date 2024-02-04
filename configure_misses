@@ -1,24 +1,48 @@
 Configure miss: CFLAGS for gcc -Wdocumentation
+Configure miss: CFLAGS for gcc -Wdocumentation
+Configure miss: CFLAGS for gcc -Wheader-guard
 Configure miss: CFLAGS for gcc -Wheader-guard
 Configure miss: CFLAGS for gcc -Wunknown-warning-option
+Configure miss: CFLAGS for gcc -Wunknown-warning-option
+Configure miss: CYGWIN
 Configure miss: CYGWIN
 Configure miss: MIDIPIX
+Configure miss: MIDIPIX
+Configure miss: WIN32
 Configure miss: WIN32
 Configure miss: a readline compatible library
+Configure miss: a readline compatible library
+Configure miss: afunix.h
 Configure miss: afunix.h
 Configure miss: arc4random_addrandom
+Configure miss: arc4random_addrandom
+Configure miss: libcap (without pkg-config)
 Configure miss: libcap (without pkg-config)
 Configure miss: libcap >= 2
+Configure miss: libcap >= 2
+Configure miss: libevent >= 2.0.5
 Configure miss: libevent >= 2.0.5
 Configure miss: mach/mach.h
+Configure miss: mach/mach.h
+Configure miss: netinet/in6.h
 Configure miss: netinet/in6.h
 Configure miss: port.h
+Configure miss: port.h
+Configure miss: port_create
 Configure miss: port_create
 Configure miss: struct sockaddr_in6.sin6_len
+Configure miss: struct sockaddr_in6.sin6_len
+Configure miss: struct sockaddr_storage.__ss_family
 Configure miss: struct sockaddr_storage.__ss_family
 Configure miss: sys/devpoll.h
+Configure miss: sys/devpoll.h
+Configure miss: sys/event.h
 Configure miss: sys/event.h
 Configure miss: sysctl
+Configure miss: sysctl
+Configure miss: whether to enable compatibility with Linux kernel older than 2.6.39
 Configure miss: whether to enable compatibility with Linux kernel older than 2.6.39
 Configure miss: whether to enable systemtap/DTrace trace support
+Configure miss: whether to enable systemtap/DTrace trace support
+Configure miss: whether to enable use of pre-0.9.2 JSON/json-c format
 Configure miss: whether to enable use of pre-0.9.2 JSON/json-c format
