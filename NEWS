@@ -1,3 +1,11 @@
+lldpd (1.0.18)
+ * Changes (breaking):
+   + Remove support for building 802.3bt TLVs (broken).
+ * Fix:
+   + Fix memory leaks in EDP/FDP decoding when receiving some TLVs twice.
+   + Do not set interface description continuously.
+   + Use a different Netlink socket for changes and queries.
+
 lldpd (1.0.17)
  * Fix:
    + Read overflow when parsing CDP addresses. Thanks to Matteo Memelli.
