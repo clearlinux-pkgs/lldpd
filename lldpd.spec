@@ -7,7 +7,7 @@
 #
 Name     : lldpd
 Version  : 1.0.18
-Release  : 5
+Release  : 6
 URL      : https://github.com/lldpd/lldpd/releases/download/1.0.18/lldpd-1.0.18.tar.gz
 Source0  : https://github.com/lldpd/lldpd/releases/download/1.0.18/lldpd-1.0.18.tar.gz
 Summary  : libevent_extra
